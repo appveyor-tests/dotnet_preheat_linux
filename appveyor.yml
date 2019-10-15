@@ -30,13 +30,14 @@ test_script:
       }
     }"
     }
+    WELCOME="^Welcome to .NET Core"
     for ver in $(dotnet --list-sdks|cut -f1 -d' '); do
         TMP_DIR=$(mktemp -d)
         pushd  "${TMP_DIR}"
         global_json ${ver} >global.json
         OUTPUT=$(dotnet new console)
         while read -r line; do
-          if [[ $line =~ ^Welcome to .NET Core ]]; then
+          if [[ $line =~ $WELCOME ]]; then
             echo "${RED}'$ver' is not pre-heated!${NC}"
             return 2
           fi
