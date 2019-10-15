@@ -39,6 +39,9 @@ test_script:
         while read -r line; do
           if [[ $line =~ $WELCOME ]]; then
             echo "${RED}'$ver' is not pre-heated!${NC}"
+            echo "---- OUTPUT ----"
+            echo "$OUTPUT"
+            echo "---- OUTPUT ----"
             return 2
           fi
         done <<< "${OUTPUT}"
