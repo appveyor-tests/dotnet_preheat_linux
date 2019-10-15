@@ -1,7 +1,9 @@
 init:
  - appveyor version
+ - ps: Update-AppveyorBuild -Message "Image $env:APPVEYOR_BUILD_WORKER_IMAGE @ $env:APPVEYOR_BUILD_WORKER_CLOUD cloud. $env:APPVEYOR_REPO_COMMIT_MESSAGE"
  - sh: echo $APPVEYOR_BUILD_WORKER_IMAGE
  - sh: echo $APPVEYOR_BUILD_WORKER_CLOUD
+ - sh: grep VERSION= /etc/os-release
  - sh: |
     # Only use colors if connected to a terminal
     if [ -t 1 ]; then
@@ -33,6 +35,7 @@ test_script:
     TEST_FAIL_FLAG=false
     WELCOME="^Welcome to .NET Core"
     for ver in $(dotnet --list-sdks|cut -f1 -d' '); do
+        echo "${GREEN}Check for welcome message in .NET SDK '${ver}'${NC}"
         TMP_DIR=$(mktemp -d)
         pushd  "${TMP_DIR}"
         global_json ${ver} >global.json
@@ -40,9 +43,9 @@ test_script:
         while read -r line; do
           if [[ $line =~ $WELCOME ]]; then
             echo "${RED}'$ver' is not pre-heated!${NC}"
-            echo "---- OUTPUT ----"
+            echo "${YELLOW}---- OUTPUT ----${NC}"
             echo "$OUTPUT"
-            echo "---- OUTPUT ----"
+            echo "${YELLOW}---- OUTPUT ----${NC}"
             TEST_FAIL_FLAG=true
           fi
         done <<< "${OUTPUT}"
