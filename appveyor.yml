@@ -22,7 +22,6 @@ init:
       NC=""
     fi
 test_script:
- - sh: ls -ltra "$HOME/.dotnet/"
  - sh: |
     function global_json() {
         echo "{
@@ -45,5 +44,6 @@ test_script:
         popd &&
         rm -rf "${TMP_DIR}"
     done
-  
+ - sh: ls -ltra "$HOME/.dotnet/"
+ 
 build: off
