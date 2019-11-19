@@ -3,7 +3,7 @@ init:
  - ps: Update-AppveyorBuild -Message "Image '$env:APPVEYOR_BUILD_WORKER_IMAGE'@'$env:APPVEYOR_BUILD_WORKER_CLOUD' cloud. $env:APPVEYOR_REPO_COMMIT_MESSAGE"
  - sh: echo $APPVEYOR_BUILD_WORKER_IMAGE
  - sh: echo $APPVEYOR_BUILD_WORKER_CLOUD
- - sh: grep VERSION= /etc/os-release
+ - sh: if [ -f /etc/os-release ]; then grep VERSION= /etc/os-release; fi
  - sh: |
     # Only use colors if connected to a terminal
     if [ -t 1 ]; then
