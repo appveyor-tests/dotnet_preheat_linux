@@ -4,6 +4,8 @@ init:
  - sh: echo $APPVEYOR_BUILD_WORKER_IMAGE
  - sh: echo $APPVEYOR_BUILD_WORKER_CLOUD
  - sh: if [ -f /etc/os-release ]; then grep VERSION= /etc/os-release; fi
+ - sh: dotnet --version
+ - sh: which dotnet
  - sh: |
     # Only use colors if connected to a terminal
     if [ -t 1 ]; then
